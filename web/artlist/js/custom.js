@@ -1324,17 +1324,17 @@ $(function () {
     }
 
     preloadImages(
-        "/img/icons/social_h.png",
-        "/img/icons/bg_pro.png",
-        "/img/icons/s-arrow_a.png",
-        "/img/icons/s-arrow_h.png",
-        "/img/icons/info_h.png",
-        "/img/icons/addaccount_active.png",
-        "/img/icons/arrow_active.png",
-        "/img/icons/arrow_down_blue.png",
-        "/img/icons/arrow.png",
-        "/img/icons/arrow_left_blue.png",
-        "/img/icons/arrow_left_white.png"
+        "/web/artlist/img/custom_js/social_h.png",
+        "/web/artlist/img/custom_js/bg_pro.png",
+        "/web/artlist/img/custom_js/s-arrow_a.png",
+        "/web/artlist/img/custom_js/s-arrow_h.png",
+        "/web/artlist/img/custom_js/info_h.png",
+        "/web/artlist/img/custom_js/addaccount_active.png",
+        "/web/artlist/img/custom_js/arrow_active.png",
+        "/web/artlist/img/custom_js/arrow_down_blue.png",
+        "/web/artlist/img/custom_js/arrow.png",
+        "/web/artlist/img/custom_js/arrow_left_blue.png",
+        "/web/artlist/img/custom_js/arrow_left_white.png"
     );
 
     function paddingTop() {
@@ -2398,8 +2398,8 @@ jQuery(document).ready(function($){
         }
     });
 
-
-    $.post('/fav', {getIds:1, _csrf: token}, function(data) {
+//ant
+    /*$.post('/fav', {getIds:1, _csrf: token}, function(data) {
 
         if((typeof data === "string" || data instanceof String) && data != ''){
             cnt = data.split(',').length;
@@ -2408,7 +2408,7 @@ jQuery(document).ready(function($){
         }else{
             $('#ant-counter').text(0);
         }
-    });
+    });*/
 
     $('body').on('click', '.cd-addd-to-cart' ,function(event){
         if(flag == 1) return false;

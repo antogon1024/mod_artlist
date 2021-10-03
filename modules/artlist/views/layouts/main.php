@@ -44,7 +44,7 @@ $cityId = empty($this->params['cities_iden']) ? '' : $this->params['cities_iden'
     <?php if (empty(Yii::$app->session->hasFlash('mob_ver')) || Yii::$app->session->getFlash('mob_ver') == 'des') { ?>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php } ?>
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/web/favicon.ico" type="image/x-icon"/>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -434,7 +434,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                     <div class="textmodule-footer" itemscope itemtype="http://schema.org/Organization">
                         <div class="footer-table table">
                             <div class="cell footer-table_main">
-                                <a href="http://artlist" class="footer__logo"><img src="/img/footer-logo.png"
+                                <a href="http://artlist" class="footer__logo"><img src="/web/artlist/img/main_php/footer-logo.png"
                                                                                         alt=""/></a>
                                 <div class="footer__copy">
                                     <p>Все права защищены <span class="hidden" itemprop="name">ARTLIST.PRO</span></p>
@@ -1171,10 +1171,10 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
 <?php //$fav = new Favorites(); ?>
 
 <?php //if(Yii::$app->request->pathInfo != 'fav' /*&& $fav->getCount() != 0*/): ?>
-<a class="ant-button" href="/fav">
-	ИЗБРАННОЕ: <span id="ant-counter"><?php //=$fav->getCount() ?></span>
-	<img id="user3" src="/img/user3.png" width="20" height="20">
-</a>
+<!--<a class="ant-button" href="/fav">
+	ИЗБРАННОЕ: <span id="ant-counter"><?php /*//=$fav->getCount() */?></span>
+	<img id="user3" src="/web/artlist/img/main_php/user3.png" width="20" height="20">
+</a>-->
 <?php //endif; ?>
 <!--<div class="cd-cart-container empty">
 	<a href="/fav" class="cd-cart-trigger">
