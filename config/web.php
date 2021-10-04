@@ -81,13 +81,13 @@ $config = [
                 //    'clientId' => '2087673024864793',
                 //    'clientSecret' => '5b5547e71079e5bf54f2b63ab99bae35',
                 //],
-                'google' => [
+                /*'google' => [
                     // register your app here: https://code.google.com/apis/console/
                     'class' => 'nodge\eauth\services\GoogleOAuth2Service',
                     'clientId' => '682672245933-t5tkjruiieog3dea8dvmfqabb56hotgh.apps.googleusercontent.com',
                     'clientSecret' => 'DJKxbGYYbqHTM_MRLmWmJKX6',
                     'title' => 'Google',
-                ],
+                ],*/
 
                 'vkontakte' => [
                     // register your app here: https://vk.com/editapp?act=create&site=1

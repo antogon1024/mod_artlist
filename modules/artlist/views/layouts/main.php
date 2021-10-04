@@ -83,19 +83,15 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
             <div class="wrapper">
                 <div class="header-table table">
                     <div class="cell">
-                        <a href="<?= Url::to(['site/user-city', 'city_name' => $this->params['cities_name']]) ?>"
+                        <a href="<?= Url::to(['site/user-city', 'city_name' => $this->params['city_name']]) ?>"
                            class="header__logo">art<i>list</i> <span>pro</span></a>
                     </div>
                     <div class="cell cityplace">
+
                         <div class="header-city pl city">
                             <div class="header-city-body">
-                                <div class="header-city__title"><?php
-                                    if (isset($this->params['city_ip']['name_ru'])):
-                                        echo $this->params['city_ip']['name_ru'];
-                                    else:
-                                        echo $cityNameRu;
-                                    endif;
-                                    ?>
+                                <div class="header-city__title">
+                                <?= $this->params['city_name']; ?>
                                 </div>
                             </div>
                         </div>
@@ -103,7 +99,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                         <div class="header-city-answer">
                             <p class="header-city-answer__text">Ваш город
                                 <span>
-                                    <?= (isset($this->params['city_ip']['name_ru'])) ? $this->params['city_ip']['name_ru'] : $cityNameRu; ?>?
+                                    <?php //= (isset($this->params['city_ip']['name_ru'])) ? $this->params['city_ip']['name_ru'] : $cityNameRu; ?>?
                                 </span>
                             </p>
 
@@ -595,10 +591,10 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
             <div class="popup-content2">
                 <div class="popup-close"></div>
                 <div class="popup__title">
-                        <!--авторизация специалиста asd--> dddddd
+                        авторизация специалиста
                 </div>
                 <div class="popup__subtitle">
-                        <!--Доступ к Вашему личному кабинету asd-->
+                    Доступ к Вашему личному кабинету
                 </div>
 				<?php if (Yii::$app->user->isGuest): ?>
                 <?php
@@ -653,7 +649,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                 </div>
                 <div class="popup-form-line">
                     <div class="popup-form__info">
-                        <p>Еще не зарегистрированы? 3333<a href="" class="pl registration">Регистрация</a></p>
+                        <p>Еще не зарегистрированы?<a href="" class="pl registration">Регистрация</a></p>
                         <p><a href="<?= Url::to(['site/recovery']) ?>" class="popup-form__lost">Забыли пароль?</a></p>
                     </div>
                 </div>

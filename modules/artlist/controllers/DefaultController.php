@@ -38,8 +38,17 @@ class DefaultController extends Controller
             return $this->redirect($url);
         }
 
-        $this->view->params['cities_name'] = ($city_name) ? $city_name : 'moscow';
+        //$g = new \jisoft\sypexgeo\Sypexgeo();
+        //echo '<pre>';print_r($g);exit;
+        //$city = City::find()->where(['name' => $g->get(Yii::$app->request->userIP)['city']['name_ru']])->one();
 
-        return $this->render('index');
+
+        $this->view->params['city_name'] = $city_name = ($city_name) ? $city_name : 'moscow';
+
+        $gorod = City::find()->where(['url' => $city_name])->one();
+
+        return $this->render('index', [
+            'gorod' => $gorod,
+        ]);
     }
 }

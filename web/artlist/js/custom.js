@@ -481,8 +481,8 @@ $(function () {
         }
         if ($(this).hasClass('login')) {
 
-            $('.popup-login').find('.popup-content2 > .popup__title').text('Ð°Ð²Ñ‚Ð¾Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸ÑÑ‚Ð°')
-            $('.popup-login').find('.popup__subtitle').text('Ð”Ð¾ÑÑ‚ÑƒÐ¿ Ðº Ð’Ð°ÑˆÐµÐ¼Ñƒ Ð»Ð¸Ñ‡Ð½Ð¾Ð¼Ñƒ ÐºÐ°Ð±Ð¸Ð½ÐµÑ‚Ñƒ')
+            $('.popup-login').find('.popup-content2 > .popup__title').text('авторизация специалиста');
+            $('.popup-login').find('.popup__subtitle').text('Доступ к Вашему личному кабинету');
             $('.popup-login').find('.popup-guest').show()
             $('.popup-login').removeClass('popup_size-l').show(0).addClass('active');
             if (LOGIN_RECAPTCHA_ID === null) {
