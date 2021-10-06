@@ -9,7 +9,7 @@ use app\models\interfaces\Likeable;
 use app\models\Likes;
 use app\models\News;
 use app\models\City;
-use app\models\Type;
+use app\modules\artlist\models\Type;
 use app\modules\artlist\models\DbModel;
 use DateTime;
 use Yii;

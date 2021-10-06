@@ -2,8 +2,10 @@
 use app\components\Url;
 
 $this->registerJsFile('/web/artlist/js/maps.js');
+$a=2;
 ?>
 
+<!--mainblock-->
 <?php if (Yii::$app->user->isGuest){ ?>
     <div class="mainblock">
         <div class="mainblock-forpc">
@@ -113,6 +115,14 @@ $this->registerJsFile('/web/artlist/js/maps.js');
         </div>
     </div>
 <?php } ?>
+<!--end mainblock-->
+<div <?php if ($gorod->allgoodreviews > 49):?>itemscope itemtype="http://schema.org/Product"<?php endif; ?>>
+    <?php if($active_blocks['popularblock']):?>
+
+
+        <?php require(Yii::getAlias('@app/modules/artlist/views/default/blocks/popularblock.php')); ?>
+    <?php endif; ?>
+</div>
 
 
 <script type="text/javascript">

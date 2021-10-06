@@ -239,8 +239,7 @@ $(function () {
         var scr = $(window).scrollTop();
         var h = $(window).outerHeight();
         var w = $(window).outerWidth();
-        //	alert (scr);
-        //	alert (lastScrollTop);
+
         if (w > 992) {
             if (scr > lastScrollTop && !$('.popup.popup-slider.active').length) {
                 setTimeout(function(){
@@ -589,9 +588,8 @@ $(function () {
             $('header').addClass('opened-photo');
 
             $(this).addClass('opened').find('img').attr('id');
-//alert( $(this).data('href') );
+
             $.ajax($(this).data('href')).done(function (data) {
-                //alert(data);
                 $('#popupSliderItem').html(data).show(0).addClass('active');
 
                 if($('#popupSliderItem').hasClass('photo-up')) {
@@ -1588,7 +1586,7 @@ $(function () {
 
     $('#register-form-btn').on('click',function (e) {
         //  e.preventDefault();
-//alert();
+
         if($(this).hasClass('disabled')){
             return false
         }
@@ -1597,7 +1595,7 @@ $(function () {
             return false;
         }
         //grecaptcha.execute(REGISTER_RECAPATCHA_ID); //asd
-        //alert(2);
+
         $('#register-form').submit(); //asd
         return true
     });
@@ -1605,7 +1603,7 @@ $(function () {
 
     $('#register-form').on('afterValidate',function (e) {
         $('.form-group.has-error').find('input').addClass('err new-shake');
-//alert('after'+$(this).find('.has-error').length);
+
         if($(this).find('.has-error').length > 0 ){
 
             $('.field-loginform-password').find('input').val('').addClass('err new-shake');
@@ -1622,7 +1620,6 @@ $(function () {
     })
 
     $('#register-form').on('submit',function (e) {
-        alert(3);
         $('#register-form .popup-form__btn').text('Ð ÐµÐ³Ð¸ÑÑ‚Ñ€Ð°Ñ†Ð¸Ñ..').attr('disabled', true).addClass('progress')
         $('.model-progress-wrapper .element').show()
     })

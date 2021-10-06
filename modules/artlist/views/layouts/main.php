@@ -83,7 +83,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
             <div class="wrapper">
                 <div class="header-table table">
                     <div class="cell">
-                        <a href="<?= Url::to(['site/user-city', 'city_name' => $this->params['city_name']]) ?>"
+                        <a href="<?= Url::to(['default/index', 'city_name' => $this->params['city_url']]) ?>"
                            class="header__logo">art<i>list</i> <span>pro</span></a>
                     </div>
                     <div class="cell cityplace">
@@ -198,12 +198,14 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                         <div class="cell cityplace">
                             <div class="header-city pl city">
                                 <div class="header-city-body">
-                                    <div class="header-city__title"><?php
-                                        if (isset($this->params['city_ip']['name_ru'])):
+                                    <div class="header-city__title">
+                                        <?php
+                                        /*if (isset($this->params['city_ip']['name_ru'])):
                                             echo $this->params['city_ip']['name_ru'];
                                         else:
                                             echo $cityNameRu;
-                                        endif;
+                                        endif;*/
+                                        echo $this->params['city_name'];
                                         ?>
                                     </div>
                                 </div>
@@ -818,9 +820,8 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                                                             $cty_name = strtolower($cty_name);
                                                             ?>
                                                             <li>
-                                                                <a href="#" data-city="<?= $city1['url']; ?>"
-                                                                   class="popup-city-item__value <?php if($city1['bold']):?> bold <?php endif;?>"
-                                                                   onclick="lexaChange(this)">
+                                                                <a href="<?=Url::to(['/artlist/default/index', 'city_name' =>  $city1['url']]);?>"
+                                                                   class="popup-city-item__value <?php if($city1['bold']):?> bold <?php endif;?>">
                                                                     <?= @$city1['name']; ?>
                                                                 </a>
                                                             </li>
@@ -838,9 +839,8 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                                                                 $cty_name = strtolower($cty_name);
                                                                 ?>
                                                                 <li>
-                                                                    <a href="#" data-city="<?= $city1['url']; ?>"
-                                                                       class="popup-city-item__value <?php if($city1['bold']):?> bold <?php endif;?>"
-                                                                       onclick="lexaChange(this)">
+                                                                    <a href="<?=Url::to(['/artlist/default/index', 'city_name' =>  $city1['url']]);?>"
+                                                                       class="popup-city-item__value <?php if($city1['bold']):?> bold <?php endif;?>">
                                                                         <?= @$city1['name']; ?>
                                                                     </a>
                                                                 </li>
@@ -996,39 +996,6 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
       }
 	});
 	});
-
-    function lexaChange(poh) { alert();
-        if (action_active == 'category' || action_active == 'user-city' || action_active == 'new-users') {
-            var pe = poh.getAttribute("data-city");
-            var lin = location.pathname;
-            $.ajax({
-                url: '<?= Url::to(["site/user-city"]); ?>',
-                type: 'get',
-                data: {city_name: pe},
-                success: function (response) {
-                    var t_a = lin.split('/');
-                    t_a[1] = pe;
-                    t_a = t_a.join("/");
-                    window.location.href = t_a;
-                }
-            });
-        } else {
-            var pe = poh.getAttribute("data-city");
-            var lin = location.pathname;
-            $.ajax({
-                url: '<?= Url::to(["site/user-city"]); ?>',
-                type: 'get',
-                data: {city_name: pe},
-                success: function (response) {
-                    var t_a = lin.split('/');
-                    t_a[1] = pe;
-                    t_a = t_a.join("/");
-                    window.location.reload();
-                }
-            });
-        }
-        return false;
-    }
 </script>
 <script type="application/javascript">
     window.addEventListener('load', function () {
@@ -1104,7 +1071,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                         $('.header-search-results-list').append(response);
 
                         cr = $('.header-search-results-list').find('a').length;
-                            //alert(cr);
+
                         if (cr == 7)
                             $('.header-search-results').append('<a href="/search?str=' + str + '" class="header-search-results__all">Все результаты</a>');
                     } else {
