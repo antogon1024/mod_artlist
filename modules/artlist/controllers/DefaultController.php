@@ -10,7 +10,7 @@ use app\modules\artlist\models\City;
 use app\modules\artlist\models\Blocks;
 use app\modules\artlist\models\Type;
 use app\modules\artlist\models\user\UserType;
-//use app\modules\artlist\models\Materials;
+use app\modules\artlist\models\Genre;
 use yii\helpers\Url;
 
 /**
@@ -27,7 +27,7 @@ class DefaultController extends Controller
                 'duration' => 60*60*24,
                 'variations' => [
                     //\Yii::$app->language,
-                    //Yii::$app->request->get('city_name'),
+                    Yii::$app->request->get('city_name'),
                     //Yii::$app->request->get('ng'),
                 ],
                 //'dependency' => [
@@ -164,6 +164,27 @@ class DefaultController extends Controller
             $lable_b_f = count($most_popular_fotographer) + 1;
             $most_popular_fotographer = array_merge($most_popular_fotographer, $most_popular_fotographer_2);
         }
+//echo '<pre>';print_r($gorod);exit;
+        //genreblock-----------------------
+        $foto_genres = Genre::getDb()->cache(function ($db) use($gid) {
+            return Genre::find()
+                ->select('genre.*, (select count(distinct user_type_id) 
+            from user_media um 
+                left join user_type 
+                    on user_type.id = um.user_type_id 
+                    LEFT JOIN user 
+                              ON user_type.user_id = user.id 
+                WHERE um.genre_id=genre.id 
+                and user_type.avatar <> ""
+                and (SELECT COUNT(*) from user_media um1 where um1.genre_id = genre.id and um1.user_type_id = um.user_type_id) >= 5
+                 and (select count(*) from admin_rules where admin_rules.user_id = user.id) < 1
+                and user_type.city_id = ' . $gid . ') as userUnique')
+                ->where(['type' => 1])
+                //->andWhere(['>', '(SELECT COUNT(*) from user_media where user_media.user_genre_id = user_genre.id and user_media.user_type_id = user_genre.user_type_id and user_media.is_cover = 0)', 4])
+                ->orderby(['userUnique' => SORT_DESC])
+                ->all();
+        }, 60 * 60 * 1);
+        //echo '<pre>';print_r($foto_genres);exit;
 
 
         return $this->render('index', [
@@ -171,6 +192,7 @@ class DefaultController extends Controller
             'active_blocks' => $active_blocks,
             'most_popular_fotographer' => $most_popular_fotographer,
             'lable_b_f' => $lable_b_f,
+            'foto_genres' => $foto_genres,
         ]);
     }
 

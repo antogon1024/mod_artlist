@@ -73,39 +73,9 @@ $a=2;
                 </div>
             </div>
             <div class="mainblock__bg ibg">
-                <?php $ran = rand(1, 10);
-                switch ($ran) {
-                    case 1:
-                        echo "<img src='/web/artlist/img/mainblock/1.jpg' alt='' />";
-                        break;
-                    case 2:
-                        echo "<img src='/web/artlist/img/mainblock/2.jpg' alt='' />";
-                        break;
-                    case 3:
-                        echo "<img src='/web/artlist/img/mainblock/3.jpg' alt='' />";
-                        break;
-                    case 4:
-                        echo "<img src='/web/artlist/img/mainblock/4.jpg' alt='' />";
-                        break;
-                    case 5:
-                        echo "<img src='/web/artlist/img/mainblock/5.jpg' alt='' />";
-                        break;
-                    case 6:
-                        echo "<img src='/web/artlist/img/mainblock/6.jpg' alt='' />";
-                        break;
-                    case 7:
-                        echo "<img src='/web/artlist/img/mainblock/7.jpg' alt='' />";
-                        break;
-                    case 8:
-                        echo "<img src='/web/artlist/img/mainblock/8.jpg' alt='' />";
-                        break;
-                    case 9:
-                        echo "<img src='/web/artlist/img/mainblock/9.jpg' alt='' />";
-                        break;
-                    case 10:
-                        echo "<img src='/web/artlist/img/mainblock/10.jpg' alt='' />";
-                        break;
-                }
+                <?php
+                $ran = rand(1, 10);
+                echo "<img src='/web/artlist/img/mainblock/".$ran.".jpg' alt='' />";
                 ?>
             </div>
         </div>
@@ -118,11 +88,15 @@ $a=2;
 <!--end mainblock-->
 <div <?php if ($gorod->allgoodreviews > 49):?>itemscope itemtype="http://schema.org/Product"<?php endif; ?>>
     <?php if($active_blocks['popularblock']):?>
-
-
         <?php require(Yii::getAlias('@app/modules/artlist/views/default/blocks/popularblock.php')); ?>
     <?php endif; ?>
+    <?php if($active_blocks['genreblock']) : ?>
+        <?php require(Yii::getAlias('@app/modules/artlist/views/default/blocks/genreblock.php')); ?>
+    <?php endif; ?>
+
 </div>
+
+
 
 
 <script type="text/javascript">
