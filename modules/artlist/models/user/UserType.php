@@ -8,7 +8,7 @@ use app\models\Genre;
 use app\models\interfaces\Likeable;
 use app\models\Likes;
 use app\models\News;
-use app\models\City;
+use app\modules\artlist\models\City;
 use app\modules\artlist\models\Type;
 use app\modules\artlist\models\DbModel;
 use DateTime;

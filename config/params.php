@@ -16,6 +16,7 @@ return [
     'avatar'=>'http://artlist/',
     //'genre_root'=>'/uploads/genre/',
     'genre_root'=>'/web/artlist/img/uploads/genre/',
+    'rand'=> rand(1, 10),
     //'recaptcha2key'=>'6Lfrpe4UAAAAAJySpnk9I6DiOIHLLHI7fAOKtfjm',
     //'recaptcha2secret'=>'6Lfrpe4UAAAAAGbgb_oht7QLJrAyjmD0PCSH1N55',
     'recaptcha2key'=>'6LcNT3AUAAAAAOahmGPWxOGmh9NCj_fsUabCZ328',

@@ -74,8 +74,8 @@ $a=2;
             </div>
             <div class="mainblock__bg ibg">
                 <?php
-                $ran = rand(1, 10);
-                echo "<img src='/web/artlist/img/mainblock/".$ran.".jpg' alt='' />";
+                //$ran = rand(1, 10);
+                echo "<img src='/web/artlist/img/mainblock/".Yii::$app->params['rand'].".jpg' alt='' />";
                 ?>
             </div>
         </div>
@@ -93,6 +93,12 @@ $a=2;
     <?php if($active_blocks['genreblock']) : ?>
         <?php require(Yii::getAlias('@app/modules/artlist/views/default/blocks/genreblock.php')); ?>
     <?php endif; ?>
+    <?php   if($active_blocks['weddingphotos']):?>
+        <section class="weddingphotos" id="pjaxContent1" style="overflow: hidden;">
+            <?php require(Yii::getAlias('@app/modules/artlist/views/default/blocks/fotoblock.php')); ?>
+        </section>
+    <?php endif; ?>
+
 
 </div>
 
@@ -106,7 +112,7 @@ $a=2;
         // updatePhotoBlock();
         $(document).on('click', '#photo-update', function (e) {
             e.preventDefault();
-            var urlBlockMore = "<?= Url::to(["/site/fotoblock-more"]); ?>";
+            var urlBlockMore = "<?= Url::to(["/artlist/default/fotoblock-more", 'cityid' => $gorod->id]); ?>";
             $.ajax({
                 url: urlBlockMore,
                 type: 'get',

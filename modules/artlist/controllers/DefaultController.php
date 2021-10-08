@@ -12,6 +12,7 @@ use app\modules\artlist\models\Type;
 use app\modules\artlist\models\user\UserType;
 use app\modules\artlist\models\Genre;
 use yii\helpers\Url;
+use app\modules\artlist\models\user\UserMedia;
 
 /**
  * Default controller for the `artlist` module
@@ -28,6 +29,7 @@ class DefaultController extends Controller
                 'variations' => [
                     //\Yii::$app->language,
                     Yii::$app->request->get('city_name'),
+                    Yii::$app->params['rand'],
                     //Yii::$app->request->get('ng'),
                 ],
                 //'dependency' => [
@@ -184,7 +186,31 @@ class DefaultController extends Controller
                 ->orderby(['userUnique' => SORT_DESC])
                 ->all();
         }, 60 * 60 * 1);
-        //echo '<pre>';print_r($foto_genres);exit;
+        //----------------------
+        $rand_genre_id = Yii::$app->params['genres'][mt_rand(0, count(Yii::$app->params['genres']) - 1)];
+
+        $rand_genre = Genre::findOne($rand_genre_id);
+
+        $a = microtime(true);
+        $db = Yii::$app->db;
+
+        $fotos_rand_genre = UserMedia::getDb()->cache(function ($db) use($rand_genre_id, $gorod) {
+            $fotos_rand_genre_query = UserMedia::find()->with('user', 'user.city')
+                ->leftJoin('user_type', 'user_media.user_type_id = user_type.id')
+                ->leftJoin('user', 'user_type.user_id = user.id')
+                ->leftJoin('city', 'user_type.city_id = city.id')
+                ->where(['genre_id' => $rand_genre_id])
+                ->andWhere(['IN', 'user.status', [1, 2]])
+                ->orderBy(new Expression('rand()'))
+                ->limit(27);
+
+            if ($gorod->show_only_photos) {
+                $fotos_rand_genre_query->andWhere(['=', 'city.id', $gorod->id]);
+            }
+
+            return $fotos_rand_genre_query->all();
+        });
+
 
 
         return $this->render('index', [
@@ -193,10 +219,46 @@ class DefaultController extends Controller
             'most_popular_fotographer' => $most_popular_fotographer,
             'lable_b_f' => $lable_b_f,
             'foto_genres' => $foto_genres,
+            'rand_genre' => $rand_genre,
+            'fotos_rand_genre' => $fotos_rand_genre,
         ]);
     }
 
-    public function actionUserCity($city_name)
+    /**
+     * @return string
+     */
+    public function actionFotoblockMore($cityid)
+    {
+        $rand_genre_id = Yii::$app->params['genres'][mt_rand(0, count(Yii::$app->params['genres']) - 1)];
+
+        $rand_genre = Genre::findOne($rand_genre_id);
+
+        $city_name = City::find()->where(['id' => $cityid])->one();
+
+        $fotos_rand_genre_query = UserMedia::find()
+            ->select('user_media.*, user.name as un, user.second_name as sn, city.name as cname, city.id as cid')
+            ->leftJoin('user_type', 'user_media.user_type_id = user_type.id')
+            ->leftJoin('user', 'user_type.user_id = user.id')
+            ->leftJoin('city', 'user_type.city_id = city.id')
+            ->where(['genre_id' => $rand_genre_id])
+            ->andWhere(['IN', 'user.status', [1, 2]])
+            ->orderBy(new Expression('rand()'))
+            ->limit(27);
+
+        if ($city_name->show_only_photos) {
+            $fotos_rand_genre_query->andWhere(['=', 'city.id', $cityid]);
+        }
+
+        $fotos_rand_genre = $fotos_rand_genre_query->all();
+
+        return $this->renderPartial('blocks/fotoblock', [
+            'fotos_rand_genre' => $fotos_rand_genre,
+            'rand_genre' => $rand_genre,
+        ]);
+    }
+
+
+    /*public function actionUserCity($city_name)
     {
         $translit = new Translit();
 
@@ -234,5 +296,5 @@ class DefaultController extends Controller
         } else {
             return json_encode(['city' => $city->name]);
         }
-    }
+    }*/
 }
