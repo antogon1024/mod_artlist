@@ -7,6 +7,7 @@ use Yii;
 class DbModel extends \yii\db\ActiveRecord
 {
     public static function getDb() {
+        //return Yii::$app->dbpg;
         return Yii::$app->dbart;
     }
 

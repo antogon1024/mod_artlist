@@ -2,6 +2,7 @@
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $dbart = require __DIR__ . '/dbart.php';
+$dbpg = require __DIR__ . '/dbpg.php';
 
 $config = [
     'id' => 'basic',
@@ -21,6 +22,7 @@ $config = [
     'components' => [
         'db' => $db,
         'dbart' => $dbart,
+        'dbpg' => $dbpg,
        /* 'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => false,
@@ -61,6 +63,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'artlist/<city_name:>' => 'artlist/default/index',
+                'artlist/photo/all/<id:>' => 'artlist/default/all-photos',
             ],
         ],
 

@@ -163,7 +163,7 @@ class City extends DbModel
 
     public static function getAllCitiesPopup($id_country)
     {
-        $cities = City::find()->where(['country_id'=>$id_country, 'show' => 1])->orderBy('sortOrder')->asArray()->limit(14)->all();
+        $cities = City::find()->where(['country_id'=>$id_country, 'show' => 1])->orderBy('sortorder')->asArray()->limit(14)->all();
         return $cities;
     }
 

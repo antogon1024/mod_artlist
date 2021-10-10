@@ -16,9 +16,16 @@ return [
 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:host=localhost;port=5432;dbname=test',
+    'dsn' => 'pgsql:host=localhost;port=5432;dbname=artlist',
     'username' => 'test',
     'password' => 'test',
     'charset' => 'utf8',
-    'tablePrefix' => 'public',
+    //'tablePrefix' => 'public',
+
+    'schemaMap' => [
+        'pgsql'=> [
+            'class'=>'yii\db\pgsql\Schema',
+            'defaultSchema' => 'artlist' //specify your schema here
+        ]
+    ],
 ];

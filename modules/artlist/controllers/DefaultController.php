@@ -44,6 +44,7 @@ class DefaultController extends Controller
      * Renders the index view for the module
      * @return string
      * $city_name например Москва
+     * $this->cities_name например moscow
      * $id города
      */
     public function actionIndex($id = null, $city_name = null)
@@ -257,44 +258,75 @@ class DefaultController extends Controller
         ]);
     }
 
-
-    /*public function actionUserCity($city_name)
+    /**
+     * all fotos page
+     *
+     * @param int $id
+     * @return string
+     * $id - genre_id
+     */
+    public function actionAllPhotos($id = 0)
     {
-        $translit = new Translit();
+        $cityHelper = new \app\components\City();
+        $a = $cityHelper->getCity();
+        $city_name = City::find()->where(['name' => $a['name_ru']])->one();
 
-        $cities_name = $translit->translit($city_name, false, 'en-ru');
-        $pos = strpos($cities_name, 'йй');
-        if ($pos === false) $cities_name = str_replace('й', 'ь', $cities_name); else $cities_name = str_replace('йй', 'ый', $cities_name);
-        $cities_name = str_replace('гх', 'ж', $cities_name);
-        $cities_name = str_replace('сцх', 'щ', $cities_name);
-        $cities_name = str_replace('__', '-', $cities_name);
-        $cities_name = str_replace('_', ' ', $cities_name);
-        $city = City::find()->where(['url' => $city_name])->one();
+        $this->view->params['city_names'] = $city_name['name'];// русское название города
+        $foto_genres = Genre::find()->where(['type' => 1])->orderby(['sort' => SORT_ASC])->all();
 
-        if (!$city) {
-            if (Yii::$app->request->cookies->getValue('city')) {
-                Yii::$app->response->cookies->add(new \yii\web\Cookie([
-                    'name' => 'city',
-                    'value' => Yii::$app->request->cookies->getValue('city'),
-                    'expire' => time() + 60 * 60 * 24 * 90, // 90 дней
-                ]));
+        $cache = Yii::$app->cache;
+        $key = 'allPhotos' . $id;
+        $res = $cache->get($key);
+
+        if ($res === false) {
+            $andWhere = ($id == 0) ? '' : 'and (`user_media`.`genre_id`=' . $id . ')';
+
+            $res = Yii::$app->dbart->createCommand("
+                SELECT `user_media`.id FROM `user_media`
+                WHERE (`user_media`.`type`=1) $andWhere
+            ")->queryAll();
+
+            $cache->set($key, $res, 7200);
+        }
+
+        $in = [];
+        $i = 0;
+        while($i < 55){
+            $n = rand(0, (count($res) - 1));
+            $idn = $res[$n]['id'];
+
+            if(!isset($in[$idn])){
+                $in[] = $idn;
+                $i++;
             }
-
-            return $this->redirect(['site/error']);
         }
-        if (!empty(Yii::$app->session->getFlash('returnUrl'))) {
 
-            $redir = Yii::$app->session->getFlash('returnUrl', null, true);
-            Yii::$app->session->removeFlash('returnUrl');
-            return $this->redirect($redir);
+        $fotos_rand_genre = UserMedia::find()
+            ->select('{{user_media}}.name, {{user_media}}.user_type_id, {{user}}.name as un, {{user}}.second_name as sn, {{city}}.name as city_name, {{city}}.id as cid, {{country}}.name as country_name')
+            ->innerJoin('{{user_type}}', '{{user_media}}.user_type_id = {{user_type}}.id')
+            ->leftJoin('{{user}}', '{{user_type}}.id = {{user}}.id')
+            ->leftJoin('{{city}}', '{{user_type}}.city_id = {{city}}.id')
+            ->leftJoin('{{country}}', '{{city}}.country_id = {{country}}.id')
+            ->where(['in', '{{user_media}}.id', $in])
+            ->limit(50);
 
+        if (!empty($id)) {
+            $fotos_rand_genre->andWhere(['{{user_media}}.genre_id' => $id]);
         }
-        Yii::$app->session->getFlash('returnUrl', null, true);
 
-        if (!Yii::$app->request->isAjax) {
-            return $this->actionIndex($city->id, $city->name);
-        } else {
-            return json_encode(['city' => $city->name]);
-        }
-    }*/
+        $fotos_rand_genre = $fotos_rand_genre->all();
+
+        shuffle($fotos_rand_genre);
+        $this->view->params['city_url'] = $city_name->url;
+        $this->view->params['city_name'] = $city_name->name;
+
+        return $this->render('all-fotos', [
+            'id' => $id,
+            'foto_genres' => $foto_genres,
+            'fotos_rand_genre' => $fotos_rand_genre,
+            'city_name' => $city_name,
+            'cities_name' => $city_name->url,
+            'city_iden' => $city_name->id,
+        ]);
+    }
 }

@@ -91,7 +91,7 @@ use app\components\ImageHelper;
 
     </div>
     <div class="weddingphotos-footer">
-        <a href="<?= Url::to(["site/all-photos", 'id' => $rand_genre['id']]); ?>" class="weddingphotos__btn btn">Показать все фотографии</a>
+        <a href="<?= Url::to(["default/all-photos", 'id' => $rand_genre['id']]); ?>" class="weddingphotos__btn btn">Показать все фотографии</a>
     </div>
 </div>
 

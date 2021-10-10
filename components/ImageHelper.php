@@ -44,7 +44,7 @@ class ImageHelper
         $year  = $datetime->format('Y');
         $month = $datetime->format('m');
         $day   = $datetime->format('d');
-		
+		//echo '<pre>';print_r($media);exit;
 		$oldprevfile = $bpath."/images/photos/o/p/".$media->user->city_id.'/'.$media->user_type_id.'/'.$media->name;
 		$prevfile = $bpath."/images/photos/n/p/".$year."/".$month.'-'.$day.'/'.$media->user->city_id.'/'.$media->user_type_id.'/'.$media->name;
 		$prevfilehere = $bpath . "/images/photos/n/p/".$year."/".$month.'-'.$day.'/'.$media->user->city_id.'/'.$media->user_type_id.'/'.$media->name;
@@ -52,10 +52,11 @@ class ImageHelper
 		
 		if($media->id < 680556) 
 		{
-			if(file_exists($oldprevfile))
+		    if(file_exists($oldprevfile))
 				return self::$host."/images/photos/o/p/".$media->user->city_id.'/'.$media->user_type_id.'/'.$media->name;
-			else 				
-				return Yii::$app->request->hostInfo."/images/_system/video_null.png";
+			else
+				return Yii::$app->request->hostInfo."/web/artlist/img/video_null.png";
+                //return 'http://artlist/images/photos/o/p/35/49216/2677f614229c96ed097a540e0cc82553.jpg';
 		}
 		
 		if(file_exists($prevfilehere)) 
