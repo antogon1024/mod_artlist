@@ -499,7 +499,7 @@ return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|h
                                            class="footer-menu__link"><?= $fl['name'] ?></a></li>
 
                                 <?php endforeach; ?>
-                                <li><a href="<?= Url::to(['site/all-photos', 'id' => 0]) ?>" class="footer-menu__link">Все
+                                <li><a href="<?= Url::to(['/artlist/default/all-photos', 'id' => 0]) ?>" class="footer-menu__link">Все
                                         фотографии</a></li>
                             </ul>
 

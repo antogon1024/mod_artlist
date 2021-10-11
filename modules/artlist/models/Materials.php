@@ -86,7 +86,7 @@ class Materials extends ActiveRecord
             $items[] =  ['label' => $material->name, 'url' => ["site/information", 'link' => $material->link]];
         }
 
-        $items[] = ['label' => 'Все фотографии', 'url' => ['site/all-photos', 'id' => 0]];
+        $items[] = ['label' => 'Все фотографии', 'url' => ['/artlist/default/all-photos', 'id' => 0]];
 
         return $items;
     }
