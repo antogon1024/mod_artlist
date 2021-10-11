@@ -54,7 +54,7 @@ $this->title = 'Все фотографии | ARTLIST.PRO';
 
     var url = "<?= Url::to(["/site/all-photos"]); ?>";
 
-    var urlMore = "<?= Url::to(["/site/all-photos-more", "city"=>$cities_name, "id"=>$id, 'idg' => $id]); ?>";
+    var urlMore = "<?= Url::to(["/artlist/default/all-photos-more", "city"=>$cities_name, "id"=>$id, 'idg' => $id]); ?>";
 //alert(urlMore);
     var arrf = "<?= !empty($arr)?json_encode($arr):''?>";
 

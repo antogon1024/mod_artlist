@@ -267,6 +267,8 @@ class DefaultController extends Controller
      */
     public function actionAllPhotos($id = 0)
     {
+        ini_set('memory_limit', '500M');
+
         $cityHelper = new \app\components\City();
         $a = $cityHelper->getCity();
         $city_name = City::find()->where(['name' => $a['name_ru']])->one();
@@ -327,6 +329,72 @@ class DefaultController extends Controller
             'city_name' => $city_name,
             'cities_name' => $city_name->url,
             'city_iden' => $city_name->id,
+            'arr' => [],
+        ]);
+    }
+
+    public function actionAllPhotosMore($city = null, $id = null, $idg = 0, $arr = '')
+    {
+        ini_set('memory_limit', '500M');
+        $arr = json_decode($arr);
+
+        $cityHelper = new \app\components\City();
+        $a = $cityHelper->getCity();
+        $city_name = City::find()->where(['name' => $a['name_ru']])->one();
+        //--------------------------------------
+        $cache = Yii::$app->cache;
+        $key = 'allPhotos' . $id;
+        $res = $cache->get($key);
+
+        if ($res === false) {
+            $andWhere = ($id == 0) ? '' : 'and (`user_media`.`genre_id`=' . $id . ')';
+
+            $res = Yii::$app->db->createCommand("
+                SELECT `user_media`.id FROM `user_media`
+                WHERE (`user_media`.`type`=1) $andWhere
+            ")->queryAll();
+
+            $cache->set($key, $res, 7200);
+        }
+
+        $in1 = $arr;
+        $in = [];
+
+        $i = 0;
+        while($i < 55){
+            $n = rand(0, (count($res) - 1));
+            $idn = $res[$n]['id'];
+
+            if(!isset($in1[$idn])){
+                $in[] = $idn;
+                $i++;
+            }
+        }
+
+        //----------------------------------------------
+        $fotos_rand_genre = UserMedia::find()
+            ->select('{{user_media}}.name, {{user_media}}.user_type_id, {{user}}.name as un, {{user}}.second_name as sn, {{city}}.name as city_name, {{city}}.id as cid, {{country}}.name as country_name')
+            ->innerJoin('{{user_type}}', '{{user_media}}.user_type_id = {{user_type}}.id')
+            ->leftJoin('{{user}}', '{{user_type}}.id = {{user}}.id')
+            ->leftJoin('{{city}}', '{{user_type}}.city_id = {{city}}.id')
+            ->leftJoin('{{country}}', '{{city}}.country_id = {{country}}.id')
+            ->where(['in', '{{user_media}}.id', $in])
+            ->limit(50);
+
+        if (!empty($id)) {
+            $fotos_rand_genre->andWhere(['{{user_media}}.genre_id' => $id]);
+        }
+
+        $fotos_rand_genre = $fotos_rand_genre->all();
+
+        $total = count($res);
+        shuffle($fotos_rand_genre);
+
+        return $this->renderPartial('all-fotos-block', [
+            'fotos_rand_genre' => $fotos_rand_genre,
+            'city_name' => $city_name,
+            'arr' => $arr,
+            'total' => $total,
         ]);
     }
 }
