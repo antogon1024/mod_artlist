@@ -3,6 +3,7 @@
 namespace app\components;
 
 use app\models\user\UserType;
+//use app\modules\artlist\models\City;
 use Yii;
 
 /**
@@ -137,7 +138,7 @@ class City
      */
     public function set($id = null, $redirect = true)
     {
-        if ($id && ($city = \app\models\City::findOne($id)) != null){
+        if ($id && ($city = \app\modules\artlist\models\City::findOne($id)) != null){
             $city_id = $city->id;
 
             $this->id = $city->id;

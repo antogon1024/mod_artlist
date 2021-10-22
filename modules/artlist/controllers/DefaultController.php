@@ -40,6 +40,11 @@ class DefaultController extends Controller
         ];
     }*/
 
+    /*public function init()
+    {
+        //echo '<pre>';print_r(1);exit;
+    }*/
+
     /**
      * Renders the index view for the module
      * @return string
@@ -52,6 +57,15 @@ class DefaultController extends Controller
        //echo Url::to(['/artlist/default/index', 'city_name' => 'moscow']);exit;
 
         //echo Url::to(["/artlist/default/user-city"]);exit;
+        if (!empty($city_name)) {
+            $gorod = City::find()->where(['url' => $city_name])->one();
+            $cityHelper = new \app\components\City();
+            $cityHelper->set($gorod->id, $redirect = false);
+
+            $a = $cityHelper->getCity();
+            //echo '<pre>';print_r($a);exit;
+        }
+
 
         if (empty($city_name)) {
             /*if ($city_id = Yii::$app->request->cookies->getValue('city')) {
@@ -71,11 +85,6 @@ class DefaultController extends Controller
             $url = Url::to(['/artlist/default/index', 'city_name' => 'moscow']);
             return $this->redirect($url);
         }
-
-        //$g = new \jisoft\sypexgeo\Sypexgeo();
-        //echo '<pre>';print_r($g);exit;
-        //$city = City::find()->where(['name' => $g->get(Yii::$app->request->userIP)['city']['name_ru']])->one();
-//echo '<pre>';print_r($city_name);exit;
 
         $this->view->params['city_url'] = $city_name = ($city_name) ? $city_name : 'moscow';
 
@@ -125,10 +134,6 @@ class DefaultController extends Controller
 
             return $q->all();
         }, 100);
-
-        //echo microtime(true) - $a;
-        //echo '<br>';
-        //exit;
 
         $lable_b_f  = 0;
         if (count($most_popular_fotographer) < 8) {
