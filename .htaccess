@@ -1,0 +1,29 @@
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+     
+RewriteCond %{REQUEST_URI} !^/(web)
+RewriteRule ^assets/(.*)$ /web/assets/$1 [L]
+RewriteRule ^css/(.*)$ web/css/$1 [L]
+RewriteRule ^js/(.*)$ web/js/$1 [L]
+RewriteRule ^images/(.*)$ web/images/$1 [L]
+RewriteRule (.*) /web/$1
+     
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /web/index.php
+
+
+# redir https
+#RewriteCond %{HTTPS} off
+#RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# errors
+#php_flag display_errors on
+#php_value error_reporting -1
+
+
+
+
+
